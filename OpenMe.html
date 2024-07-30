@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Bday Gurl</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+      font-family: sans-serif;
+    }
+    body {
+      background-color: #ffe4e1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+    }
+    h1 {
+      margin-bottom: 20px;
+      font-size: 20px;
+      color: #000046;
+      text-align: center;
+    }
+    .card {
+      width: 90%;
+      max-width: 640px;
+      height: 60%;
+      max-height: 400px;
+      position: relative;
+      perspective: 1200px;
+      transition: 1s;
+    }
+    .card:hover {
+      transform: rotate(-5deg);
+    }
+    .card:hover .outside {
+      transform: rotateY(-130deg);
+    }
+    .outside, .inside {
+      height: 100%;
+      width: 50%;
+      position: absolute;
+      left: 50.1%;
+    }
+    .inside {
+      background: linear-gradient(to right, #e7e7e7, #ffffff 30%);
+      line-height: 1.5;
+      padding: 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      left: 50%;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .outside {
+      transform-style: preserve-3d;
+      z-index: 1;
+      transform-origin: left;
+      transition: 2s;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .front, .back {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      backface-visibility: hidden;
+      transform: rotateX(0deg);
+    }
+    .front {
+      background-color: #ffffff;
+    }
+    .back {
+      transform: rotateY(180deg);
+      background: linear-gradient(to left, #e7e7e7, #ffffff 30%);
+    }
+    .cake {
+      width: 100%;
+      position: absolute;
+      bottom: 30px;
+    }
+    .top-layer, .middle-layer, .bottom-layer {
+      height: 80px;
+      width: 240px;
+      background-repeat: repeat;
+      background-size: 60px 100px;
+      background-position: 28px 0;
+      background-image: linear-gradient(
+        transparent 50px,
+        #fedbab 50px,
+        #fedbab 60px,
+        transparent 60px
+      ), radial-gradient(circle at 30px 5px, #994c10 30px, #fcbf29 31px);
+      border-radius: 10px 10px 0 0;
+      position: relative;
+      margin: auto;
+    }
+    .middle-layer {
+      transform: scale(0.85);
+      top: 6px;
+    }
+    .top-layer {
+      transform: scale(0.7);
+      top: 26px;
+    }
+    .candle {
+      height: 45px;
+      width: 15px;
+      background: repeating-linear-gradient(
+        45deg,
+        #fd3018 0,
+        #fd3018 5px,
+        #ffa89e 5px,
+        #ffa89e 10px
+      );
+      position: absolute;
+      margin: auto;
+      left: 0;
+      right: 0;
+      bottom: 202px;
+    }
+    .candle:before {
+      content: "";
+      position: absolute;
+      height: 16px;
+      width: 16px;
+      background-color: #ffa500;
+      border-radius: 0 50% 50% 50%;
+      bottom: 48px;
+      transform: rotate(45deg);
+      left: -1px;
+    }
+    .outside p {
+      font-size: 15px;
+      text-transform: uppercase;
+      margin-top: 30px;
+      text-align: center;
+      letter-spacing: 6px;
+      color: #000046;
+    }
+    .inside p {
+      font-size: 16px;
+      line-height: 1.4;
+      margin: 10px 0;
+    }
+    .inside h1 {
+      font-size: 80px;
+      line-height: 80px;
+    }
+    @media (max-width: 768px) {
+      .card {
+        height: 70%;
+      }
+      .inside p {
+        font-size: 14px;
+      }
+      .inside h1 {
+        font-size: 60px;
+        line-height: 60px;
+      }
+    }
+    @media (max-width: 480px) {
+      .inside {
+        padding: 10px;
+      }
+      .inside p {
+        font-size: 12px;
+      }
+      .inside h1 {
+        font-size: 40px;
+        line-height: 40px;
+      }
+      .cake .top-layer, .cake .middle-layer, .cake .bottom-layer {
+        height: 50px;
+        width: 150px;
+      }
+      .middle-layer {
+        top: 3px;
+      }
+      .top-layer {
+        top: 15px;
+      }
+      .candle {
+        height: 30px;
+        width: 10px;
+        bottom: 125px;
+      }
+      .candle:before {
+        height: 10px;
+        width: 10px;
+        bottom: 35px;
+      }
+    }
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+  </style>
+</head>
+<body>
+  <h1>Happy Great Day ニフタ様</h1>
+  <canvas id="birthday"></canvas>
+  <div class="card">
+    <div class="outside">
+      <div class="front">
+        <p>Happy Birthday!!!</p>
+        <div class="cake">
+          <div class="top-layer"></div>
+          <div class="middle-layer"></div>
+          <div class="bottom-layer"></div>
+          <div class="candle"></div>
+        </div>
+      </div>
+      <div class="back"></div>
+    </div>
+    <div class="inside">
+      <p>誕生日おめでとう</p>
+      <p>I hope this card of warm wishes</p>
+      <p>Will brighten up your day</p>
+      <p>By reminding you you are thought of</p>
+      <p>In a very special way</p>
+      <h1>&#127873;</h1>
+    </div>
+  </div>
+
+  <script>
+    const PI2 = Math.PI * 2;
+    const random = (min, max) => Math.random() * (max - min + 1) + min | 0;
+    const timestamp = _ => new Date().getTime();
+
+    class Birthday {
+      constructor() {
+        this.resize();
+        this.fireworks = [];
+        this.counter = 0;
+      }
+      
+      resize() {
+        this.width = canvas.width = window.innerWidth;
+        let center = this.width / 2 | 0;
+        this.spawnA = center - center / 4 | 0;
+        this.spawnB = center + center / 4 | 0;
+        this.height = canvas.height = window.innerHeight;
+        this.spawnC = this.height * 0.1;
+        this.spawnD = this.height * 0.5;
+      }
+      
+      onClick(evt) {
+        let x = evt.clientX || evt.touches && evt.touches[0].pageX;
+        let y = evt.clientY || evt.touches && evt.touches[0].pageY;
+        let count = random(3, 5);
+        for (let i = 0; i < count; i++) {
+          this.fireworks.push(new Firework(
+            random(this.spawnA, this.spawnB),
+            this.height,
+            x,
+            y,
+            random(0, 260),
+            random(30, 110)
+          ));
+        }
+        this.counter = -1;
+      }
+      
+      update(delta) {
+        ctx.globalCompositeOperation = 'hard-light';
+        ctx.fillStyle = `rgba(20,20,20,${7 * delta})`;
+        ctx.fillRect(0, 0, this.width, this.height);
+        ctx.globalCompositeOperation = 'lighter';
+        for (let firework of this.fireworks) firework.update(delta);
+        this.counter += delta * 3;
+        if (this.counter >= 1) {
+          this.fireworks.push(new Firework(
+            random(this.spawnA, this.spawnB),
+            this.height,
+            random(0, this.width),
+            random(this.spawnC, this.spawnD),
+            random(0, 360),
+            random(30, 110)
+          ));
+          this.counter = 0;
+        }
+        if (this.fireworks.length > 1000) this.fireworks = this.fireworks.filter(firework => !firework.dead);
+      }
+    }
+
+    class Firework {
+      constructor(x, y, targetX, targetY, shade, offsprings) {
+        this.dead = false;
+        this.offsprings = offsprings;
+        this.x = x;
+        this.y = y;
+        this.targetX = targetX;
+        this.targetY = targetY;
+        this.shade = shade;
+        this.history = [];
+      }
+      update(delta) {
+        if (this.dead) return;
+        let xDiff = this.targetX - this.x;
+        let yDiff = this.targetY - this.y;
+        if (Math.abs(xDiff) > 3 || Math.abs(yDiff) > 3) {
+          this.x += xDiff * 2 * delta;
+          this.y += yDiff * 2 * delta;
+          this.history.push({ x: this.x, y: this.y });
+          if (this.history.length > 20) this.history.shift();
+        } else {
+          if (this.offsprings && !this.madeChilds) {
+            let babies = this.offsprings / 2;
+            for (let i = 0; i < babies; i++) {
+              let targetX = this.x + this.offsprings * Math.cos(PI2 * i / babies) | 0;
+              let targetY = this.y + this.offsprings * Math.sin(PI2 * i / babies) | 0;
+              birthday.fireworks.push(new Firework(this.x, this.y, targetX, targetY, this.shade, 0));
+            }
+          }
+          this.madeChilds = true;
+          this.history.shift();
+        }
+        if (this.history.length === 0) this.dead = true;
+        else if (this.offsprings) {
+          for (let i = 0; i < this.history.length; i++) {
+            let point = this.history[i];
+            ctx.beginPath();
+            ctx.fillStyle = 'hsl(' + this.shade + ',100%,' + i + '%)';
+            ctx.arc(point.x, point.y, 1, 0, PI2, false);
+            ctx.fill();
+          }
+        } else {
+          ctx.beginPath();
+          ctx.fillStyle = 'hsl(' + this.shade + ',100%,50%)';
+          ctx.arc(this.x, this.y, 1, 0, PI2, false);
+          ctx.fill();
+        }
+      }
+    }
+
+    let canvas = document.getElementById('birthday');
+    let ctx = canvas.getContext('2d');
+    let then = timestamp();
+    let birthday = new Birthday();
+    window.onresize = () => birthday.resize();
+    document.onclick = evt => birthday.onClick(evt);
+    document.ontouchstart = evt => birthday.onClick(evt);
+
+    (function loop() {
+      requestAnimationFrame(loop);
+      let now = timestamp();
+      let delta = now - then;
+      then = now;
+      birthday.update(delta / 1000);
+    })();
+  </script>
+</body>
+</html>
